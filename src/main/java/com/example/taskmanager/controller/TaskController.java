@@ -1,7 +1,7 @@
 package com.example.taskmanager.controller;
 
 import com.example.taskmanager.model.Task;
-import com.example.taskmanager.repository.TaskRepository;
+import com.example.taskmanager.service.TaskService; // Import do novo Service
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,23 +13,20 @@ import java.util.List;
 public class TaskController {
 
     @Autowired
-    private TaskRepository repository;
-
+    private TaskService service;
 
     @GetMapping
     public List<Task> getAllTasks() {
-        return repository.findAll();
+        return service.listarTodas(); // Chama o método do service
     }
 
-    // criar uma nova tarefa
     @PostMapping
     public Task createTask(@RequestBody Task task) {
-        return repository.save(task);
+        return service.salvar(task); // Chama o método do service
     }
 
-    // deletar uma tarefa pelo ID
     @DeleteMapping("/{id}")
     public void deleteTask(@PathVariable Long id) {
-        repository.deleteById(id);
+        service.deletar(id); // Chama o método do service
     }
 }
